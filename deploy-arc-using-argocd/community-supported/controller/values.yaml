@@ -1,0 +1,6 @@
+spec:
+  destination:
+    server: [Your ARC Cluster]
+  source:
+    repoURL: [Your ArgoCD Repository URL]
+    targetRevision: HEAD

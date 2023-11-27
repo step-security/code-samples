@@ -1,0 +1,8 @@
+runner:
+  name: "runner"
+  namespace: "arc-runners"
+  createNamespace: "true"
+  organization: ""
+  repository: ""
+  replicas: "1"
+  resources: {}

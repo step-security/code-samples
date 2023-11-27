@@ -1,0 +1,19 @@
+apiVersion: actions.summerwind.dev/v1alpha1
+kind: RunnerDeployment
+metadata:
+  name: {{ .Values.runner.name }}
+  namespace: {{ .Values.runner.namespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+spec:
+  replicas: {{ .Values.runner.replicas }}
+  template:
+    spec:
+      {{- if gt (len .Values.runner.organization) 0 }}
+      organization: {{ .Values.runner.organization }}
+      {{- else }}
+      repository: {{ .Values.runner.repository }}
+      {{- end }}
+      containers:
+        - name: runner
+          resources: {{ toYaml .Values.runner.resources | indent 12 }}

@@ -1,0 +1,30 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name:  {{ .Values.runner.name }}
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+spec:
+  project: default
+  source:
+    repoURL: 'ghcr.io/actions/actions-runner-controller-charts'
+    targetRevision: '0.5.0'
+    chart: 'gha-runner-scale-set'
+    helm:
+      parameters:
+        - name: githubConfigUrl
+          value: {{ .Values.runner.githubConfigUrl | quote }}
+        - name: githubConfigSecret
+          value: {{ .Values.runner.secretName | quote }}
+        - name: controllerServiceAccount.namespace
+          value: "arc"
+        - name: controllerServiceAccount.name
+          value: "actions-runner-controller-gha-rs-controller"
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: {{ .Values.runner.namespace }}
+  syncPolicy:
+    automated: {}

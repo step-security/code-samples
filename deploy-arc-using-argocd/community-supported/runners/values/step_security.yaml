@@ -1,0 +1,8 @@
+runner:
+  name: "step-security"
+  namespace: "arcrunner"
+  createNamespace: "true"
+  organization: "step-security"
+  repository: ""
+  replicas: "1"
+  resources: {}
